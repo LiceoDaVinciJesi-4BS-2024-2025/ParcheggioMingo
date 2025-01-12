@@ -8,7 +8,11 @@
 # AB 123 CD (dove al posto delle ABCD ci va una qualunque lettera maiuscola dell’alfabeto e al
 # posto di 123 ci va una qualunque sequenza numerica di 3 cifre).
 
-listaAuto = ["Ferrari", "McLaren", "Mercedes", "Porsche", "Bugatti", "Fiat", "Opel"]
+# Definire una serie di liste per marca, colore e alimentazione per indicare i valori accettabili.
+# Cilindrata deve essere un intero positivo multiplo di 100. 
+listaMarche = ["ferrari", "mclaren", "mercedes", "porsche", "bugatti", "fiat", "opel","kawasaki", "aprilia", "ktm", "yamaha", "betamotor", "bmw", "ducati", "honda"]
+listaColori = ["nero", "bianco", "grigio", "rosso", "blu", "verde", "giallo", "viola"]
+listaAlimentazione = ["benzina", "diesel", "metano", "elettrico", "gpl"]
 
 class Veicolo:
     
@@ -65,21 +69,31 @@ class Veicolo:
         """
         #creo una lista con i tre elementi della targa
         listaTarga = targa.split(sep= " ")
+        #--------------------------------------------
         #controllo la prima parte
+        if len(listaTarga[0]) != 2:
+            raise ValueError ("Targa non valida")
+        
         for lettera in listaTarga[0]:
             if lettera not in alfabetoM:
                 raise ValueError ("Targa non valida")
-        
+        #--------------------------------------------
         #controllo la seconda parte
+        if len(listaTarga[1]) != 3:
+            raise ValueError ("Targa non valida")
+        
         for numero in listaTarga[1]:
             if str(numero) not in numeri:
                 raise ValueError ("Targa non valida")
-        
+        #-------------------------------------------
         #controllo la terza parte    
+        if len(listaTarga[2]) != 2:
+            raise ValueError ("Targa non valida")
+            
         for lettera in listaTarga[2]:
             if lettera not in alfabetoM:
                 raise ValueError ("Targa non valida")
-        
+        #----------------------------------------------
         self.__targa = targa
         return
     
@@ -90,6 +104,8 @@ class Veicolo:
     
     @marca.setter
     def marca(self, marca:str):
+        if marca.lower() not in listaMarche:
+            raise ValueError ("Valore non accettabile")
         self.__marca = marca
         return
     
@@ -108,6 +124,8 @@ class Veicolo:
     
     @colore.setter
     def colore(self, colore:str):
+        if colore.lower() not in listaColori:
+            raise ValueError("Valore non accettabile")
         self.__colore = colore
         return
     
@@ -116,7 +134,10 @@ class Veicolo:
         return self.__cilindrata
     
     @cilindrata.setter
-    def cilindrata(self, cilindrata:str):
+    def cilindrata(self, cilindrata:int):
+        if cilindrata < 0 or cilindrata % 100 != 0:
+            raise ValueError("Cilindrata non valida")
+        
         self.__cilindrata = cilindrata
         return
     
@@ -126,12 +147,41 @@ class Veicolo:
     
     @alimentazione.setter
     def alimentazione(self, alimentazione:str):
+        if alimentazione.lower() not in listaAlimentazione:
+            raise ValueError("Valore non accettabile")
+        
         self.__alimentazione = alimentazione
         return
     
+    # Aggiungere un ordinamento implicito fra gli oggetti di tipo Veicolo in modo da renderli ordinabili
+    # alfabeticamente per marca, modello e numericamente (dal più piccolo al più grande) per cilindrata.
+    def maggioreMarca(self, other):
+        """
+        determino come ordinare due fattori in base alla marca
+        """
+        lista = [self.__marca, other.__marca]
+        lista.sort()
+        if lista[0] == self.__marca:
+            return True
+        return False
     
+    def maggioreModello(self, other):
+        """
+        determino come ordinare due fattori in base al modello
+        """
+        lista = [self.__modello, other.__modello]
+        lista.sort()
+        if lista[0] == self.__modello:
+            return True
+        return False
+    
+    def maggioreCilindrata(self, other):
+        """
+        determino come ordinare due fattori in base alla marca
+        """
+        lista = [self.__cilindrata, other.__cilindrata]
+        lista.sort()
+        if lista[0] == self.__cilindrata:
+            return True
+        return False
         
-# Definire una serie di liste per marca, colore e alimentazione per indicare i valori accettabili.
-# Cilindrata deve essere un intero positivo multiplo di 100. 
-# Aggiungere un ordinamento implicito fra gli oggetti di tipo Veicolo in modo da renderli ordinabili
-# alfabeticamente per marca, modello e numericamente (dal più piccolo al più grande) per cilindrata.
