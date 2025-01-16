@@ -55,3 +55,14 @@ class Moto(veicolo.Veicolo):
             raise ValueError("Valore non accettabile")
         self.__persTrasportate = numero
         return
+    
+#-----------------------------------------------------------------------------------------------------
+#TEST
+if __name__ == "__main__":
+    #creo una moto
+    moto1 = Moto("AB 123 CD", 2, 1)
+    print(moto1)
+    moto1.marca = "kawasaki"
+    moto1.numeroMaxPass = 1
+    moto1.persTrasportate = 1
+    print(moto1)

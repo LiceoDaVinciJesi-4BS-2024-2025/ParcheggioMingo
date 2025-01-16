@@ -155,33 +155,59 @@ class Veicolo:
     
     # Aggiungere un ordinamento implicito fra gli oggetti di tipo Veicolo in modo da renderli ordinabili
     # alfabeticamente per marca, modello e numericamente (dal più piccolo al più grande) per cilindrata.
-    def maggioreMarca(self, other):
+    def __lt__(self, other):
         """
         determino come ordinare due fattori in base alla marca
         """
-        lista = [self.__marca, other.__marca]
-        lista.sort()
-        if lista[0] == self.__marca:
+        #creo una lista per ordinarli alfabeticamente
+        if self.__marca < other.marca:
             return True
-        return False
-    
-    def maggioreModello(self, other):
-        """
-        determino come ordinare due fattori in base al modello
-        """
-        lista = [self.__modello, other.__modello]
-        lista.sort()
-        if lista[0] == self.__modello:
-            return True
-        return False
-    
-    def maggioreCilindrata(self, other):
-        """
-        determino come ordinare due fattori in base alla marca
-        """
-        lista = [self.__cilindrata, other.__cilindrata]
-        lista.sort()
-        if lista[0] == self.__cilindrata:
-            return True
-        return False
         
+        #controllo se la marca è uguale
+        if self.__marca == other.__marca:
+            if self.__modello < other.__modello:
+                return True
+        
+        #controllo la cilindrata a livello numerico
+        if self.__modello == other.__modello:
+            if self.__cilindrata < other.__cilindrata:
+                return True
+        
+        return False
+
+
+#------------------------------------------------------------------------------
+# TEST
+if __name__ == "__main__":
+    #veicolo1
+    veicolo1 = Veicolo("AB 123 CD")
+    print(veicolo1)
+    print("Targa:", veicolo1.targa)
+    print("Marca:", veicolo1.marca)
+    print("Modello:", veicolo1.modello)
+    print("Cilindrata:", veicolo1.cilindrata)
+    print("Colore:", veicolo1.colore)
+    print("Alimentazione:", veicolo1.alimentazione)
+
+    #veicolo2
+    veicolo2 = Veicolo("EF 456 GH")
+    print(veicolo2)
+    print("Targa:", veicolo2.targa)
+    veicolo2.marca = "Fiat"
+    print("Marca:", veicolo2.marca)
+    veicolo2.modello = "Panda"
+    print("Modello:", veicolo2.modello)
+    veicolo2.cilindrata = 300
+    print("Cilindrata:", veicolo2.cilindrata)
+    veicolo2.colore = "verde"
+    print("Colore:", veicolo2.colore)
+    veicolo2.alimentazione = "diesel"
+    print("Alimentazione:", veicolo2.alimentazione)
+
+    #provo l'ordinamento
+    print(veicolo1 < veicolo2)
+    #provo l'ordinamento con marche diverse
+    veicolo1.marca = "Fiat"
+    print(veicolo1 < veicolo2)
+
+

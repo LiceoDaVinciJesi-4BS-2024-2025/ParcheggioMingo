@@ -55,6 +55,16 @@ class Auto(veicolo.Veicolo):
             raise ValueError("Valore non accettabile")
         self.__persTrasportate = numero
         return
+
+#----------------------------------------------------------------------------
+if __name__ == "__main__":
+    #creo un'auto
+    auto1 = Auto("EF 456 GH", 5, 4)
+    print(auto1)
+    auto1.marca = "Fiat"
+    auto1.numeroMaxPass = 3
+    auto1.persTrasportate = 1
+    print(auto1)
     
     
     
