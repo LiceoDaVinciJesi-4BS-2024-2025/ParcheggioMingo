@@ -62,41 +62,6 @@ class Veicolo:
     def targa(self):
         return self.__targa
     
-    @targa.setter
-    def targa(self, targa:str):
-        """
-        permette di rideterminare la targa
-        """
-        #creo una lista con i tre elementi della targa
-        listaTarga = targa.split(sep= " ")
-        #--------------------------------------------
-        #controllo la prima parte
-        if len(listaTarga[0]) != 2:
-            raise ValueError ("Targa non valida")
-        
-        for lettera in listaTarga[0]:
-            if lettera not in alfabetoM:
-                raise ValueError ("Targa non valida")
-        #--------------------------------------------
-        #controllo la seconda parte
-        if len(listaTarga[1]) != 3:
-            raise ValueError ("Targa non valida")
-        
-        for numero in listaTarga[1]:
-            if str(numero) not in numeri:
-                raise ValueError ("Targa non valida")
-        #-------------------------------------------
-        #controllo la terza parte    
-        if len(listaTarga[2]) != 2:
-            raise ValueError ("Targa non valida")
-            
-        for lettera in listaTarga[2]:
-            if lettera not in alfabetoM:
-                raise ValueError ("Targa non valida")
-        #----------------------------------------------
-        self.__targa = targa
-        return
-    
     #oggetto marca
     @property
     def marca(self):

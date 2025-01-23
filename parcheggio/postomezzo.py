@@ -11,7 +11,7 @@ tipoLista = ["Auto", "Moto"]
 
 #definisco la classe
 class PostoMezzo:
-    def __init__(self, tipo: str, targa:str = "", dataFineParcheggio:datetime.datetime = 0):
+    def __init__(self, tipo: str): # ci inserisco solo il tipo di parcheggio, targa:str = "", dataFineParcheggio:datetime.datetime = None):
         """
         inizializza la funzione, permette di parcheggiare un mezzo a seconda del se è libero o no
         """
@@ -19,11 +19,13 @@ class PostoMezzo:
             raise ValueError("Tipo non valido")
         self.__tipo = tipo
         
-        #imposto una targa, se la targa è vuota il parcheggio è occupato
-        self.__targa = targa
+        # la targa è vuota, il parcheggio è occupato
+        self.__targa = ""
         
         #segno quando finisce il termine di occupazione
-        self.__dataFineParcheggio = dataFineParcheggio
+        self.__dataInizioParcheggio = None
+        self.__dataFineParcheggio = None
+        
         
     def __str__(self):
         return __class__.__name__ + str(self.__dict__)
@@ -38,23 +40,31 @@ class PostoMezzo:
     def targa (self):
         return self.__targa
     
-    @targa.setter
-    def targa (self, targa):
-        self.__targa = targa
-        return
+    @property
+    def dataInizioParcheggio(self):
+        return self.__dataInizioParcheggio
     
     @property
     def dataFineParcheggio(self):
         return self.__dataFineParcheggio
     
-    @dataFineParcheggio.setter
-    def dataFineParcheggio(self, data:datetime.datetime):
+    #creo una funzione per occupare il parcheggio
+    def occupaPosto (self, targa:str = ""):
         """
-        imposto la data del parcheggio
+        creo una funzione per occupare un parcheggio
         """
-        self.__dataFineParcheggio = data
+        self.__targa = targa
+        self.__dataInizioParcheggio = datetime.datetime.now()
         return
-
+        
+    #creo una funzione per liberare il parcheggio
+    def liberaPosto (self, targa:str = ""):
+        """
+        creo una funzione per liberare il parcheggio
+        """
+        self.__targa = ""
+        self.__dataFineParcheggio = datetime.datetime.now()
+        return
     
     #creo una funzione per vedere se è occupato
     def occupato(self):
@@ -65,9 +75,11 @@ class PostoMezzo:
 #------------------------------------------------------------------------
 #TEST
 if __name__ == "__main__":
-    parcheggio = PostoMezzo("Auto", dataFineParcheggio= datetime.datetime(2025, 1, 23, 9, 0, 0))
+    parcheggio = PostoMezzo("Auto")
     print(parcheggio)
     print("Parcheggio occupato:", parcheggio.occupato())
-    parcheggio.targa = "AB 123 CD"
+    parcheggio.occupaPosto("AB 123 CD")
     print("Parcheggio occupato:", parcheggio.occupato())
     print("Targa auto parcheggiata:", parcheggio.targa)
+    parcheggio.liberaPosto("AB 123 CD")
+    print("Parcheggio occupato:", parcheggio.occupato())

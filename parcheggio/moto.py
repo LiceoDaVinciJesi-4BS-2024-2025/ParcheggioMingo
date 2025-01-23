@@ -31,16 +31,6 @@ class Moto(veicolo.Veicolo):
     @property
     def numeroMaxPass (self):
         return self.__numeroMaxPass
-    
-    @numeroMaxPass.setter
-    def numeroMaxPass(self, numero:int):
-        """
-        permette di reimpostare il numero massimo di passeggeri
-        """
-        if numero <= 0 or numero > 2:
-            raise ValueError("Valore non accettabile")
-        self.__numeroMaxPass = numero
-        return
 
     @property
     def persTrasportate (self):
