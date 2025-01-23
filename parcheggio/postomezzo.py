@@ -11,7 +11,7 @@ tipoLista = ["Auto", "Moto"]
 
 #definisco la classe
 class PostoMezzo:
-    def __init__(self, tipo: str, targa:str = "", oreSosta:datetime.time = datetime.time(00, 00, 00)):
+    def __init__(self, tipo: str, targa:str = "", dataFineParcheggio:datetime.datetime = 0):
         """
         inizializza la funzione, permette di parcheggiare un mezzo a seconda del se è libero o no
         """
@@ -23,8 +23,7 @@ class PostoMezzo:
         self.__targa = targa
         
         #segno quando finisce il termine di occupazione
-        # self.__dataFineParcheggio = 0
-        self.__oreSosta = oreSosta
+        self.__dataFineParcheggio = dataFineParcheggio
         
     def __str__(self):
         return __class__.__name__ + str(self.__dict__)
@@ -44,29 +43,18 @@ class PostoMezzo:
         self.__targa = targa
         return
     
-#     @property
-#     def dataFineParcheggio(self):
-#         return self.__dataFineParcheggio
-#     
-#     @dataFineParcheggio.setter
-#     def dataFineParcheggio(self, data:datetime.datetime):
-#         """
-#         imposto la data del parcheggio
-#         """
-#         self.__dataFineParcheggio = data
-#         return
-
     @property
-    def oreSosta(self):
-        return self.__oreSosta
+    def dataFineParcheggio(self):
+        return self.__dataFineParcheggio
     
-    @oreSosta.setter
-    def oreSosta(self, ora:datetime.time):
+    @dataFineParcheggio.setter
+    def dataFineParcheggio(self, data:datetime.datetime):
         """
-        imposto la durata del parcheggio
+        imposto la data del parcheggio
         """
-        self.__oreSosta = ora
+        self.__dataFineParcheggio = data
         return
+
     
     #creo una funzione per vedere se è occupato
     def occupato(self):
@@ -77,15 +65,9 @@ class PostoMezzo:
 #------------------------------------------------------------------------
 #TEST
 if __name__ == "__main__":
-    parcheggio = PostoMezzo("Auto")
+    parcheggio = PostoMezzo("Auto", dataFineParcheggio= datetime.datetime(2025, 1, 23, 9, 0, 0))
     print(parcheggio)
     print("Parcheggio occupato:", parcheggio.occupato())
     parcheggio.targa = "AB 123 CD"
     print("Parcheggio occupato:", parcheggio.occupato())
     print("Targa auto parcheggiata:", parcheggio.targa)
-        
-        
-        
-        
-        
-        

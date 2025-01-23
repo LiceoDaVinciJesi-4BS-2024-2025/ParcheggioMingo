@@ -41,12 +41,12 @@ class Parcheggio:
     
     #-----------------------------------------------------------------------------
     #creo la funzione per parcheggiare il veicolo
-    def parcheggiaVeicolo(self, tipoVeicolo: str, targa:str, oreSosta: datetime.time):
+    def parcheggiaVeicolo(self, tipoVeicolo: str, targa:str, dataFineParcheggio: datetime.datetime):
         """
         permette di parcheggiare un veicolo
         """
         #l'utente si riserva un posto nel parcheggio
-        parcheggio = PostoMezzo(tipoVeicolo, targa, oreSosta)
+        parcheggio = PostoMezzo(tipoVeicolo, targa, dataFineParcheggio)
         
         #aggiorno il numero di parcheggi disponibili
         if parcheggio.tipo == "Auto":
@@ -55,21 +55,23 @@ class Parcheggio:
             self.__parcheggiMoto -= 1
         
         #creo una lista di mezzi parcheggiati
-        listaMezziParcheggiati.append({"tipo":parcheggio.tipo, "targa": parcheggio.targa, "oreSosta": parcheggio.oreSosta})
+        listaMezziParcheggiati.append({"tipo":parcheggio.tipo, "targa": parcheggio.targa, "dataFineParcheggio": parcheggio.dataFineParcheggio})
         
         #calcolo quanti soldi deve l'utente
-        oreIntere = parcheggio.oreSosta.hour
+        adesso = datetime.datetime.now()
+        diff = dataFineParcheggio - adesso
+        secondiTotali = int(diff.total_seconds())  # questo me lo da in secondi
+        
         #differenzio tra auto e moto
         if parcheggio.tipo == "Auto":
             tariffa = 1.5
         else:
             tariffa = 1.2
         
-        conto = oreIntere * tariffa
-        
-        #aggiungo i minuti
-        minuti = parcheggio.oreSosta.minute
-        conto += (tariffa/60)*minuti
+        #calcolo i soldi totali
+        contoLungo = (tariffa/3600)*secondiTotali
+        contoApprossimato = int(contoLungo * 100)
+        conto = contoApprossimato / 100
         
         #aggiungo il conto al saldo totale
         self.__guadagnoTotale += conto
@@ -83,10 +85,10 @@ class Parcheggio:
         e il totale raggiunto.
         """
         #la lista che utilizzo è quella creata all'inizio dei parcheggi
-        campi = ["tipo","targa", "oreSosta"]
+        campi = ["tipo","targa", "dataFineParcheggio"]
 
         #creo il file di testo
-        file = open("park_data.txt", "w", newline="") 
+        file = open("park.data", "w", newline="") 
         scrittore = csv.DictWriter(file, campi)
         
         #scrivo le righe da inserire
@@ -94,7 +96,7 @@ class Parcheggio:
             scrittore.writerow(riga)
         
         #inserisco il guagano totale
-        file.write("Guadagno totale:", str(self.__guadagnoTotale))
+        file.write(f"Guadagno totale: {str(self.__guadagnoTotale)}")
         file.close()
 #-----------------------------------------------------------------------------------
 #TEST
@@ -105,7 +107,7 @@ if __name__ == "__main__":
     print()
     
     #macchina 1
-    sosta1 = parcheggio1.parcheggiaVeicolo("Auto", "AB 123 CD", datetime.time(1,0,0))
+    sosta1 = parcheggio1.parcheggiaVeicolo("Auto", "AB 123 CD", datetime.datetime(2025,1,23,9,30,0))
     print("Il saldo è pari a:", sosta1)
     print(parcheggio1)
     print("Saldo totale:", parcheggio1.guadagnoTotale)
@@ -114,7 +116,7 @@ if __name__ == "__main__":
     print()
     
     #macchina 2
-    sosta2 = parcheggio1.parcheggiaVeicolo("Auto", "EF 456 GH", datetime.time(3,0,0))
+    sosta2 = parcheggio1.parcheggiaVeicolo("Auto", "EF 456 GH", datetime.datetime(2025,1,23,10,30,0))
     print("Il saldo è pari a:", sosta2)
     print(parcheggio1)
     print("Saldo totale:", parcheggio1.guadagnoTotale)
@@ -123,7 +125,7 @@ if __name__ == "__main__":
     print()
     
     #moto 1
-    sosta3 = parcheggio1.parcheggiaVeicolo("Moto", "LM 789 PQ", datetime.time(2,0,0))
+    sosta3 = parcheggio1.parcheggiaVeicolo("Moto", "LM 789 PQ", datetime.datetime(2025,1,23,11,30,0))
     print("Il saldo è pari a:", sosta3)
     print(parcheggio1)
     print("Saldo totale:", parcheggio1.guadagnoTotale)
