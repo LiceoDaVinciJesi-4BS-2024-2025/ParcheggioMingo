@@ -15,19 +15,22 @@ class Parcheggio:
         """
         inizializza il parcheggio e definisce i posti disponibili
         """
+        #controllo se ho già creato il parcheggio
+
         self.__listaParcheggiAuto = []
         self.__listaParcheggiMoto = []
-        
+            
+        #creo i parcheggi per auto
         for x in range(1000):
             parcheggio = PostoMezzo("Auto")
             self.__listaParcheggiAuto.append(parcheggio)
         
+        #creo i parcheggi per moto
         for y in range(200):
             parcheggio = PostoMezzo("Moto")
             self.__listaParcheggiMoto.append(parcheggio)
-            
+       
         self.__guadagnoTotale = 0
-        
     
     def __str__(self):
         return __class__.__name__ + str(self.__dict__)
@@ -37,21 +40,25 @@ class Parcheggio:
     #definizione delle property; so in ogni istante se richiamo la property quanti parcheggi rimangono
     @property
     def parcheggiAutoLiberi(self):
-        contaPosti = 0
+        contaPostiAuto = 0
+        #controllo tutti i parcheggi
         for posto in self.__listaParcheggiAuto:
+            #se il posto è libero lo conto
             if posto.occupato() == False:
-                contaPosti += 1
+                contaPostiAuto += 1
                 
-        return contaPosti
+        return contaPostiAuto
     
     @property
     def parcheggiMotoLiberi(self):
-        contaPosti = 0
+        contaPostiMoto = 0
+        #controllo tutti i parcheggi
         for posto in self.__listaParcheggiMoto:
+            #se il posto è libero lo conto
             if posto.occupato() == False:
-                contaPosti += 1
+                contaPostiMoto += 1
                 
-        return contaPosti
+        return contaPostiMoto
     
     @property
     def guadagnoTotale(self):
@@ -76,6 +83,7 @@ class Parcheggio:
                 break
         
         postoConsiderato.occupaPosto(targa)
+        print(posto)
         return
     #---------------------------------------------------------------------------
     def liberaPosto(self, tipoVeicolo: str, targa:str):
@@ -92,6 +100,8 @@ class Parcheggio:
             if posto.targa == targa:
                 posto.liberaPosto(targa)
                 break
+            
+        print(posto)
         
         #crea il saldo dell''utente
         diff = posto.dataFineParcheggio - posto.dataInizioParcheggio
@@ -133,13 +143,16 @@ class Parcheggio:
         file = open("park.data", "w", newline="") 
         scrittore = csv.DictWriter(file, campi)
         
+        scrittore.writeheader()
+        
         #scrivo le righe da inserire
         for riga in dati:
             scrittore.writerow(riga)
         
         #inserisco il guagano totale
-        file.write(f"Guadagno totale: {str(self.__guadagnoTotale)}")
+        file.write(str(self.__guadagnoTotale))
         file.close()
+            
 #-----------------------------------------------------------------------------------
 #TEST
 if __name__ == "__main__":
@@ -163,25 +176,30 @@ if __name__ == "__main__":
     print("Parcheggi auto:", parcheggio1.parcheggiAutoLiberi)
     print("Parcheggi moto:", parcheggio1.parcheggiMotoLiberi)
     
-    sosta1 = parcheggio1.liberaPosto("Auto", "AB 123 CD")
-    print("Il saldo è pari a:", sosta1)
-    print(parcheggio1)
-    print("Saldo totale:", parcheggio1.guadagnoTotale)
-    print()
-    
-    sosta2 = parcheggio1.liberaPosto("Auto", "EF 456 GH")
-    print("Il saldo è pari a:", sosta2)
-    print(parcheggio1)
-    print("Saldo totale:", parcheggio1.guadagnoTotale)
-    print()
-    
-    sosta3 = parcheggio1.liberaPosto("Moto", "LM 789 PQ")
-    print("Il saldo è pari a:", sosta3)
-    print(parcheggio1)
-    print("Saldo totale:", parcheggio1.guadagnoTotale)
-
     #provo la scrittura
     parcheggio1.salvaStatoParcheggio()
+    
+#     
+#     # TEST DA FARE DOPO UN TOT
+#     sosta1 = parcheggio1.liberaPosto("Auto", "AB 123 CD")
+#     print("Il saldo è pari a:", sosta1)
+#     print(parcheggio1)
+#     print("Saldo totale:", parcheggio1.guadagnoTotale)
+#     print()
+#     
+#     sosta2 = parcheggio1.liberaPosto("Auto", "EF 456 GH")
+#     print("Il saldo è pari a:", sosta2)
+#     print(parcheggio1)
+#     print("Saldo totale:", parcheggio1.guadagnoTotale)
+#     print()
+#     
+#     sosta3 = parcheggio1.liberaPosto("Moto", "LM 789 PQ")
+#     print("Il saldo è pari a:", sosta3)
+#     print(parcheggio1)
+#     print("Saldo totale:", parcheggio1.guadagnoTotale)
+# 
+#     #provo la scrittura
+#     parcheggio1.salvaStatoParcheggio()
     
         
     

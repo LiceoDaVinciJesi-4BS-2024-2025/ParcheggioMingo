@@ -53,6 +53,5 @@ if __name__ == "__main__":
     moto1 = Moto("AB 123 CD", 2, 1)
     print(moto1)
     moto1.marca = "kawasaki"
-    moto1.numeroMaxPass = 1
     moto1.persTrasportate = 1
     print(moto1)
