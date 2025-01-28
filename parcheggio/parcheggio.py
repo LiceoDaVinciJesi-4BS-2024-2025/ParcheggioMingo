@@ -179,8 +179,8 @@ if __name__ == "__main__":
     #provo la scrittura
     parcheggio1.salvaStatoParcheggio()
     
-#     
-#     # TEST DA FARE DOPO UN TOT
+    
+    # TEST DA FARE DOPO UN TOT
 #     sosta1 = parcheggio1.liberaPosto("Auto", "AB 123 CD")
 #     print("Il saldo è pari a:", sosta1)
 #     print(parcheggio1)
