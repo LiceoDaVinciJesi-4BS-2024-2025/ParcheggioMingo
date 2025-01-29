@@ -1,6 +1,6 @@
 tipo,targa,dataInizioParcheggio,dataFineParcheggio
-Auto,AB 123 CD,2025-01-28 19:56:13.920253,
-Auto,EF 456 GH,2025-01-28 19:56:13.920253,
+Auto,,2025-01-29 16:50:48,2025-01-29 17:06:45
+Auto,,2025-01-29 16:50:48,2025-01-29 17:06:45
 Auto,,,
 Auto,,,
 Auto,,,
@@ -999,7 +999,7 @@ Auto,,,
 Auto,,,
 Auto,,,
 Auto,,,
-Moto,LM 789 PQ,2025-01-28 19:56:13.920253,
+Moto,,2025-01-29 16:50:48,2025-01-29 17:06:45
 Moto,,,
 Moto,,,
 Moto,,,
@@ -1199,4 +1199,4 @@ Moto,,,
 Moto,,,
 Moto,,,
 Moto,,,
-0
+1.09

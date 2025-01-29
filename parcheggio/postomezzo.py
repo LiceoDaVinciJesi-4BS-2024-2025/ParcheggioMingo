@@ -11,7 +11,7 @@ tipoLista = ["Auto", "Moto"]
 
 #definisco la classe
 class PostoMezzo:
-    def __init__(self, tipo: str, dataInizioParcheggio: datetime.datetime = None, dataFineParcheggio: datetime.datetime = None ): # ci inserisco solo il tipo di parcheggio, targa:str = "", dataFineParcheggio:datetime.datetime = None):
+    def __init__(self, tipo: str, targa: str = "", dataInizioParcheggio: datetime.datetime = None, dataFineParcheggio: datetime.datetime = None): # ci inserisco solo il tipo di parcheggio, targa:str = "", dataFineParcheggio:datetime.datetime = None):
         """
         inizializza la funzione, permette di parcheggiare un mezzo a seconda del se è libero o no
         """
@@ -20,7 +20,7 @@ class PostoMezzo:
         self.__tipo = tipo
         
         # la targa è vuota, il parcheggio è occupato
-        self.__targa = ""
+        self.__targa = targa
         
         #segno quando finisce il termine di occupazione
         self.__dataInizioParcheggio = dataInizioParcheggio
@@ -55,7 +55,7 @@ class PostoMezzo:
         creo una funzione per occupare un parcheggio
         """
         self.__targa = targa
-        self.__dataInizioParcheggio = datetime.datetime.now()
+        self.__dataInizioParcheggio = datetime.datetime.now().replace(microsecond=0)
         return
         
     #creo una funzione per liberare il parcheggio
@@ -64,7 +64,7 @@ class PostoMezzo:
         creo una funzione per liberare il parcheggio
         """
         self.__targa = ""
-        self.__dataFineParcheggio = datetime.datetime.now()
+        self.__dataFineParcheggio = datetime.datetime.now().replace(microsecond=0)
         return
     
     #creo una funzione per vedere se è occupato

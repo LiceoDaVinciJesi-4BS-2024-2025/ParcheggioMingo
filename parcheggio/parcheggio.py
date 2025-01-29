@@ -152,7 +152,57 @@ class Parcheggio:
         #inserisco il guagano totale
         file.write(str(self.__guadagnoTotale))
         file.close()
-            
+    
+    def riprendiDati(self):
+        """
+        a partire dal file mi riprende i dati
+        """
+        #leggo il file e prendo i dati
+        dati = []
+        file = open("park.data", "r")
+        lettore = csv.DictReader(file)
+
+        for riga in lettore:
+            dati.append(riga)
+
+        file.close()
+        
+        #differenzio i dati tra moto e auto
+        listaMoto = []
+        listaAuto = []
+        
+        #aggiungo alle due liste questi campi
+        for parcheggio in dati:
+            # controllo prima le auto
+            if parcheggio["tipo"] == "Auto":
+                #se il parcheggio non è occupato non ho un datetime altrimenti si
+                if parcheggio["dataInizioParcheggio"] != "":
+                    parcheggioA = PostoMezzo(parcheggio["tipo"], parcheggio["targa"], datetime.datetime.strptime(parcheggio["dataInizioParcheggio"], "%Y-%m-%d %H:%M:%S"))
+                    
+                else:
+                    parcheggioA = PostoMezzo(parcheggio["tipo"], parcheggio["targa"], "")
+                    
+                listaAuto.append(parcheggioA)
+                
+            #stessa cosa fatta sopra   
+            elif parcheggio["tipo"] == "Moto":
+                if parcheggio["dataInizioParcheggio"] != "":
+                    parcheggioA = PostoMezzo(parcheggio["tipo"], parcheggio["targa"], datetime.datetime.strptime(parcheggio["dataInizioParcheggio"], "%Y-%m-%d %H:%M:%S"))
+                else:
+                    parcheggioA = PostoMezzo(parcheggio["tipo"], parcheggio["targa"], "")
+                    
+                listaMoto.append(parcheggioA)
+                
+                
+            else:
+                #l'unico diverso è il guadagno totale
+                self.__guadagnoTotale = float(parcheggio["tipo"])
+        
+        #ricreo le liste del parcheggio
+        self.__listaParcheggiAuto = listaAuto
+        self.__listaParcheggiMoto = listaMoto
+        return
+                    
 #-----------------------------------------------------------------------------------
 #TEST
 if __name__ == "__main__":
@@ -161,45 +211,46 @@ if __name__ == "__main__":
     print(parcheggio1)
     print()
     
-    #macchina 1
-    parcheggio1.parcheggiaVeicolo("Auto", "AB 123 CD")
-    print("Parcheggi auto:", parcheggio1.parcheggiAutoLiberi)
-    print("Parcheggi moto:", parcheggio1.parcheggiMotoLiberi)
-    
-    #macchina 2
-    parcheggio1.parcheggiaVeicolo("Auto", "EF 456 GH")
-    print("Parcheggi auto:", parcheggio1.parcheggiAutoLiberi)
-    print("Parcheggi moto:", parcheggio1.parcheggiMotoLiberi)
-    
-    #moto 1
-    parcheggio1.parcheggiaVeicolo("Moto", "LM 789 PQ")
-    print("Parcheggi auto:", parcheggio1.parcheggiAutoLiberi)
-    print("Parcheggi moto:", parcheggio1.parcheggiMotoLiberi)
-    
-    #provo la scrittura
-    parcheggio1.salvaStatoParcheggio()
-    
-    
-    # TEST DA FARE DOPO UN TOT
-#     sosta1 = parcheggio1.liberaPosto("Auto", "AB 123 CD")
-#     print("Il saldo è pari a:", sosta1)
-#     print(parcheggio1)
-#     print("Saldo totale:", parcheggio1.guadagnoTotale)
-#     print()
+#     #macchina 1
+#     parcheggio1.parcheggiaVeicolo("Auto", "AB 123 CD")
+#     print("Parcheggi auto:", parcheggio1.parcheggiAutoLiberi)
+#     print("Parcheggi moto:", parcheggio1.parcheggiMotoLiberi)
 #     
-#     sosta2 = parcheggio1.liberaPosto("Auto", "EF 456 GH")
-#     print("Il saldo è pari a:", sosta2)
-#     print(parcheggio1)
-#     print("Saldo totale:", parcheggio1.guadagnoTotale)
-#     print()
+#     #macchina 2
+#     parcheggio1.parcheggiaVeicolo("Auto", "EF 456 GH")
+#     print("Parcheggi auto:", parcheggio1.parcheggiAutoLiberi)
+#     print("Parcheggi moto:", parcheggio1.parcheggiMotoLiberi)
 #     
-#     sosta3 = parcheggio1.liberaPosto("Moto", "LM 789 PQ")
-#     print("Il saldo è pari a:", sosta3)
-#     print(parcheggio1)
-#     print("Saldo totale:", parcheggio1.guadagnoTotale)
-# 
+#     #moto 1
+#     parcheggio1.parcheggiaVeicolo("Moto", "LM 789 PQ")
+#     print("Parcheggi auto:", parcheggio1.parcheggiAutoLiberi)
+#     print("Parcheggi moto:", parcheggio1.parcheggiMotoLiberi)
+#     
 #     #provo la scrittura
 #     parcheggio1.salvaStatoParcheggio()
+#     
+    parcheggio1.riprendiDati()
+    
+    # TEST DA FARE DOPO UN TOT
+    sosta1 = parcheggio1.liberaPosto("Auto", "AB 123 CD")
+    print("Il saldo è pari a:", sosta1)
+    print(parcheggio1)
+    print("Saldo totale:", parcheggio1.guadagnoTotale)
+    print()
+    
+    sosta2 = parcheggio1.liberaPosto("Auto", "EF 456 GH")
+    print("Il saldo è pari a:", sosta2)
+    print(parcheggio1)
+    print("Saldo totale:", parcheggio1.guadagnoTotale)
+    print()
+    
+    sosta3 = parcheggio1.liberaPosto("Moto", "LM 789 PQ")
+    print("Il saldo è pari a:", sosta3)
+    print(parcheggio1)
+    print("Saldo totale:", parcheggio1.guadagnoTotale)
+
+    #provo la scrittura
+    parcheggio1.salvaStatoParcheggio()
     
         
     
