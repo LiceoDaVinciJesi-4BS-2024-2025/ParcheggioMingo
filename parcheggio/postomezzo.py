@@ -55,7 +55,7 @@ class PostoMezzo:
         creo una funzione per occupare un parcheggio
         """
         self.__targa = targa
-        self.__dataInizioParcheggio = datetime.datetime.now().replace(microsecond=0)
+        self.__dataInizioParcheggio = datetime.datetime.now()
         return
         
     #creo una funzione per liberare il parcheggio
@@ -64,7 +64,7 @@ class PostoMezzo:
         creo una funzione per liberare il parcheggio
         """
         self.__targa = ""
-        self.__dataFineParcheggio = datetime.datetime.now().replace(microsecond=0)
+        self.__dataFineParcheggio = datetime.datetime.now()
         return
     
     #creo una funzione per vedere se è occupato

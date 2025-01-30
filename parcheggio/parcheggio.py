@@ -8,6 +8,7 @@ from auto import*
 from postomezzo import*
 import datetime
 import csv
+from pathlib import Path
 
 #definisco la classe parcheggio
 class Parcheggio:
@@ -31,6 +32,7 @@ class Parcheggio:
             self.__listaParcheggiMoto.append(parcheggio)
        
         self.__guadagnoTotale = 0
+        
     
     def __str__(self):
         return __class__.__name__ + str(self.__dict__)
@@ -131,11 +133,17 @@ class Parcheggio:
         #creo la lista dei dati
         dati = []
         for posto in self.__listaParcheggiAuto:
-            dati.append({"tipo":posto.tipo,"targa":posto.targa,"dataInizioParcheggio":posto.dataInizioParcheggio, "dataFineParcheggio":posto.dataFineParcheggio})
-            
-        for posto in self.__listaParcheggiMoto:
-            dati.append({"tipo":posto.tipo,"targa":posto.targa,"dataInizioParcheggio":posto.dataInizioParcheggio, "dataFineParcheggio":posto.dataFineParcheggio})
+            if posto.dataInizioParcheggio != None:
+                dati.append({"tipo":posto.tipo,"targa":posto.targa,"dataInizioParcheggio":posto.dataInizioParcheggio.strftime("%Y-%m-%d %H:%M:%S"), "dataFineParcheggio":posto.dataFineParcheggio})
+            else:
+                dati.append({"tipo":posto.tipo,"targa":posto.targa,"dataInizioParcheggio":None, "dataFineParcheggio": posto.dataFineParcheggio})
                 
+        for posto in self.__listaParcheggiMoto:
+            if posto.dataInizioParcheggio != None:
+                dati.append({"tipo":posto.tipo,"targa":posto.targa,"dataInizioParcheggio":posto.dataInizioParcheggio.strftime("%Y-%m-%d %H:%M:%S"), "dataFineParcheggio":posto.dataFineParcheggio})
+            else:
+                dati.append({"tipo":posto.tipo,"targa":posto.targa,"dataInizioParcheggio":None, "dataFineParcheggio":posto.dataFineParcheggio })
+
         #la lista che utilizzo è quella creata all'inizio dei parcheggi
         campi = ["tipo","targa", "dataInizioParcheggio","dataFineParcheggio"]
 
@@ -180,7 +188,7 @@ class Parcheggio:
                     parcheggioA = PostoMezzo(parcheggio["tipo"], parcheggio["targa"], datetime.datetime.strptime(parcheggio["dataInizioParcheggio"], "%Y-%m-%d %H:%M:%S"))
                     
                 else:
-                    parcheggioA = PostoMezzo(parcheggio["tipo"], parcheggio["targa"], "")
+                    parcheggioA = PostoMezzo(parcheggio["tipo"], parcheggio["targa"], None)
                     
                 listaAuto.append(parcheggioA)
                 
@@ -189,7 +197,7 @@ class Parcheggio:
                 if parcheggio["dataInizioParcheggio"] != "":
                     parcheggioA = PostoMezzo(parcheggio["tipo"], parcheggio["targa"], datetime.datetime.strptime(parcheggio["dataInizioParcheggio"], "%Y-%m-%d %H:%M:%S"))
                 else:
-                    parcheggioA = PostoMezzo(parcheggio["tipo"], parcheggio["targa"], "")
+                    parcheggioA = PostoMezzo(parcheggio["tipo"], parcheggio["targa"], None)
                     
                 listaMoto.append(parcheggioA)
                 
@@ -228,7 +236,7 @@ if __name__ == "__main__":
 #     
 #     #provo la scrittura
 #     parcheggio1.salvaStatoParcheggio()
-#     
+    
     parcheggio1.riprendiDati()
     
     # TEST DA FARE DOPO UN TOT
@@ -248,7 +256,7 @@ if __name__ == "__main__":
     print("Il saldo è pari a:", sosta3)
     print(parcheggio1)
     print("Saldo totale:", parcheggio1.guadagnoTotale)
-
+    
     #provo la scrittura
     parcheggio1.salvaStatoParcheggio()
     
