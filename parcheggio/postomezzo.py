@@ -50,7 +50,7 @@ class PostoMezzo:
 
     
     #creo una funzione per occupare il parcheggio
-    def occupaPosto (self, targa:str = ""):
+    def occupaPosto (self, targa:str):
         """
         creo una funzione per occupare un parcheggio
         """
@@ -59,7 +59,7 @@ class PostoMezzo:
         return
         
     #creo una funzione per liberare il parcheggio
-    def liberaPosto (self, targa:str = ""):
+    def liberaPosto (self, targa:str):
         """
         creo una funzione per liberare il parcheggio
         """

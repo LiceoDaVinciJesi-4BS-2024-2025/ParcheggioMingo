@@ -86,6 +86,7 @@ class Parcheggio:
                 #prendo un parcheggio
                 postoConsiderato = posto
                 break
+        # else: return <--- PARCHEGGIO PIENO!!!
         
         postoConsiderato.occupaPosto(targa)
         print(posto)
@@ -170,7 +171,7 @@ class Parcheggio:
         for riga in dati:
             scrittore.writerow(riga)
         
-        #inserisco il guagano totale
+        #inserisco il guadagno totale
         file.write(str(self.__guadagnoTotale))
         file.close()
     
